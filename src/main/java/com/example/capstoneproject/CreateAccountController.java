@@ -57,7 +57,7 @@ public class CreateAccountController {
         String email = EmailTextField.getText();
         String password = PasswordTextField.getText();
 
-        if (firstName.length() > 3 && isValidEmail(email) && email.endsWith("@gmail.com") && password.length() > 8) {
+        if (firstName.length() >= 3 && isValidEmail(email) && email.endsWith("@gmail.com") && password.length() > 8) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
             Parent root = loader.load();
