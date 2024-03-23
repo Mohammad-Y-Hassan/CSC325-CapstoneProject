@@ -17,17 +17,24 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+// import jdk.internal.access.JavaNioAccess;
 
 public class CreateAccountController {
+    @FXML
+    private Button LogInButton2;
 
-    //@FXML
-    //private Button CreateAccountButton;
+    @FXML
+    private Button MainCreateAccountButton;
+
+    @FXML
+    private Button MainLogInButton;
+
+    @FXML
+    private Button CreateAccountButton2;
 
     @FXML
     private PasswordField PasswordTextField;
 
-    @FXML
-    private Button LogInButton;
 
     @FXML
     private TextField FirstNameTextField;
@@ -38,8 +45,9 @@ public class CreateAccountController {
     @FXML
     private Label LogInMessageLabel;
 
+
     // Validates email
-    public boolean isValidEmail(String email){
+    public boolean isValidEmail(String email) {
         // Regular expression pattern for email validation
         String pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
@@ -52,7 +60,8 @@ public class CreateAccountController {
         // Check if the email matches the pattern
         return matcher.matches();
     }
-    public void CreateAccountButton(ActionEvent event) throws IOException{
+
+    public void HomeView(ActionEvent event) throws IOException {
         String firstName = FirstNameTextField.getText();
         String email = EmailTextField.getText();
         String password = PasswordTextField.getText();
@@ -70,6 +79,42 @@ public class CreateAccountController {
         } else {
             LogInMessageLabel.setText("Please enter valid credentials");
         }
+
+
     }
 
+    public void LogIn(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/logIn.fxml"));
+
+        // Set the root element type programmatically
+        BorderPane root = new BorderPane();
+        loader.setRoot(root);
+
+        // Now load the FXML
+        loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.setScene(scene);
+
+
+    }
+    public void CreateAccount(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
+
+        // Set the root element type programmatically
+        BorderPane root = new BorderPane();
+        loader.setRoot(root);
+
+        // Now load the FXML
+        loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.setScene(scene);
+
+
+    }
 }
