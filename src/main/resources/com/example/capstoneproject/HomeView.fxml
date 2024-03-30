@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstoneproject.HomeViewController">
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstoneproject.HomeViewController">
    <top>
       <AnchorPane prefHeight="32.0" prefWidth="600.0" style="-fx-background-color: #9094E7;" BorderPane.alignment="CENTER">
          <children>
@@ -16,11 +20,6 @@
                </image>
             </ImageView>
             <TextField fx:id="SearchField" layoutX="93.0" layoutY="4.0" prefHeight="23.46" prefWidth="349.0" promptText="Search" />
-            <ImageView fx:id="uploadPostButton" fitHeight="22.0" fitWidth="26.0" layoutX="482.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../CapstoneProjectImages/uploadPost.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="522.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
@@ -29,6 +28,11 @@
             <ImageView fitHeight="25.0" fitWidth="23.0" layoutX="557.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/shoppingcartIcon.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="uploadPostButton" fitHeight="25.0" fitWidth="45.0" layoutX="484.0" layoutY="5.0" onMousePressed="#uploadPost" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../CapstoneProjectImages/uploadPost.png" />
                </image>
             </ImageView>
          </children>

@@ -36,7 +36,6 @@ public class Main extends Application {
 //                .build();
 
 //        FirebaseApp.initializeApp(options);
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
 
         // Set the root element type programmatically
