@@ -15,7 +15,7 @@
    <top>
       <AnchorPane prefHeight="32.0" prefWidth="600.0" style="-fx-background-color: #9094E7;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="36.0" fitWidth="89.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="36.0" fitWidth="89.0" layoutY="-1.0" onMousePressed="#returntoHome" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/HomeViewImage.png" />
                </image>
@@ -26,7 +26,7 @@
                   <Image url="@../../../CapstoneProjectImages/uploadPost.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="522.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="522.0" layoutY="5.0" onMouseClicked="#toProfile" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
                </image>
