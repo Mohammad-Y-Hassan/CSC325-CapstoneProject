@@ -15,6 +15,8 @@ import com.google.firebase.auth.*;
 import com.google.cloud.firestore.*;
 import com.google.api.core.ApiFuture;
 import java.io.FileInputStream;
+import java.io.InputStream;
+
 import com.google.firebase.FirebaseOptions;
 // import com.example.capstoneproject.FirestoreContext;
 public class Main extends Application {
@@ -36,6 +38,14 @@ public class Main extends Application {
 //                .build();
 
 //        FirebaseApp.initializeApp(options);
+        InputStream serviceAccount = getClass().getResourceAsStream("/com/example/capstoneproject/key.json");
+
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://your-database-url.firebaseio.com/") // Replace with your database URL
+                .build();
+
+        FirebaseApp.initializeApp(options);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
 
         // Set the root element type programmatically
