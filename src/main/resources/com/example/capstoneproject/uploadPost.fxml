@@ -60,7 +60,10 @@
             <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField promptText="Price" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Button mnemonicParsing="false" text="Upload" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <ImageView fx:id="uploadPostPic" fitHeight="150.0" fitWidth="200.0" onMousePressed="#uploadpostPic" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../../../CapstoneProjectImages/uploadProfileIcon.png" />
+               </image></ImageView>
          </children>
       </GridPane>
    </center>
