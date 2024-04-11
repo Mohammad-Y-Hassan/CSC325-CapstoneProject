@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 public class Main extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
     public static Firestore fstore;
     public static FirebaseAuth fauth;
@@ -50,11 +52,9 @@ public class Main extends Application {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
-
         // Set the root element type programmatically
         BorderPane root = new BorderPane();
         loader.setRoot(root);
-
         // Now load the FXML
         loader.load();
 
@@ -62,7 +62,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     public static void main(String[] args) {
         launch();
     }
