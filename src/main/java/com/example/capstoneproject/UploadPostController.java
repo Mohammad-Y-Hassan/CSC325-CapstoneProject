@@ -41,6 +41,10 @@ public class UploadPostController {
         stage.setScene(scene);
         stage.show();
     }
+
+    //Add an option to upload an image
+
+
     public void uploadpostPic(MouseEvent event)throws IOException{
         FileChooser fileChooser = new FileChooser();
         //sets extension filters
