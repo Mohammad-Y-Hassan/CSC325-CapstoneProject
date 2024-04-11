@@ -35,6 +35,8 @@ public class UploadPostController {
         stage.setScene(scene);
         stage.show();
     }
+    //Add an option to upload an image
+
     }
 
 
