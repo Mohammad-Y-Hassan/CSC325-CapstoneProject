@@ -27,32 +27,40 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
 
-    public static Firestore fstore;
-    public static FirebaseAuth fauth;
-    private final FirebaseContext contxtFirebase = new FirebaseContext();
+        public static Firestore fstore;
+        public static FirebaseAuth fauth;
+        private final FirebaseContext contxtFirebase = new FirebaseContext();
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+        @Override
+        public void start (Stage primaryStage) throws Exception {
+
+
+//            FileInputStream serviceAccount =
+//                    new FileInputStream("src/main/resources/key.json");
+//
+//            FirebaseOptions options = FirebaseOptions.builder()
+//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                    .build();
+//
+//            FirebaseApp.initializeApp(options);
 
 //        fstore = contxtFirebase.firebase();
 //        fauth = FirebaseAuth.getInstance();
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
-        // Set the root element type programmatically
-        BorderPane root = new BorderPane();
-        loader.setRoot(root);
-        // Now load the FXML
-        loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
+            // Set the root element type programmatically
+            BorderPane root = new BorderPane();
+            loader.setRoot(root);
+            // Now load the FXML
+            loader.load();
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+        public static void Main(String[] args){
+            launch();
+        }
     }
-    public static void main(String[] args) {
-        launch();
-    }
-}
