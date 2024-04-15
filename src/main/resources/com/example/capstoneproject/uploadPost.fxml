@@ -31,7 +31,7 @@
                   <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="557.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="557.0" layoutY="6.0" onMouseClicked="#toCart" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/shoppingcartIcon.png" />
                </image>
