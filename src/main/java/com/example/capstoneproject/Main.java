@@ -35,16 +35,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
-        FileInputStream serviceAccount =
-                new FileInputStream("src/main/resources/key.json");
-
-        FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build();
-
-        FirebaseApp.initializeApp(options);
-
 //        fstore = contxtFirebase.firebase();
 //        fauth = FirebaseAuth.getInstance();
 
