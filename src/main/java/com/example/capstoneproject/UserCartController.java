@@ -11,9 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -21,21 +21,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class UserCartController {
+
+    /**picture, item name and price of item variables**/
+    @FXML
+    private ImageView itempicInCart;
     @FXML
     private Label cardErrorLabel;
-
     @FXML
     private TextField cardNumberField;
-
     @FXML
     private TextField ccvTextField;
-
     @FXML
     private TextField expDateTextField;
-
     @FXML
     private TextField fullNameTextField;
-
     @FXML
     private TextField addressTextField;
 
@@ -62,6 +61,18 @@ public class UserCartController {
             validateCardDetails();
         });
     }
+    private Text sampleItemNameInCart;
+    @FXML
+    private Text samplePriceInCart;
+
+    /**subtotal area variables **/
+    @FXML
+    private Text subtotalInCart;
+    @FXML
+    private Text taxesInCart;
+    @FXML
+    private Text totalInCart;
+
 
     public void returntoHome(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
