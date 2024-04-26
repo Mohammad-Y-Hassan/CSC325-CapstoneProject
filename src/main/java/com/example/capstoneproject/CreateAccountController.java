@@ -2,14 +2,13 @@ package com.example.capstoneproject;
 
 // Used for validating email
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -71,26 +70,43 @@ public class CreateAccountController {
         return matcher.matches();
     }
 
+    public void logInUser(UserRecord newUserRecord, String firstName, String email, ActionEvent event) {
+
+    }
+
+    public void createUser(String email, String password, String firstName, ActionEvent event) {
+        Firestore db = FirebaseContext.getFirestore();
+        if (db == null) {
+            System.err.println("Firestore is not initialized");
+            return;
+        }
+        Map<String, Object> User = new HashMap<>();
+        User.put("Email Address", email);   // Matching field names from your Firestore screenshot
+        User.put("Full Name", firstName);   // Matching field names from your Firestore screenshot
+        User.put("Password", password);     // Matching field names from your Firestore screenshot
+
+        DocumentReference docRef = db.collection("User").document(email);
+//        ApiFuture<WriteResult> future = db.collection("User").document(email).set(user);
+        ApiFuture<WriteResult> future = docRef.set(User);
+        try {
+            WriteResult result = future.get(); // This will block and wait for the operation to complete
+            System.out.println("User added successfully, update time: " + result.getUpdateTime());
+        } catch (Exception e) {
+            System.out.println("Error adding user: " + e.getMessage());
+        }
+    }
+
     public void HomeView(ActionEvent event) throws IOException {
         String firstName = FirstNameTextField.getText();
         String email = EmailTextField.getText();
         String password = PasswordTextField.getText();
 
         if (firstName.length() >= 3 && isValidEmail(email) && email.endsWith("@gmail.com") && password.length() >= 8) {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(scene);
+            createUser(email, password, firstName, event);
+            navigateToHome(event);
         } else {
             LogInMessageLabel.setText("Please enter valid credentials");
         }
-
-
     }
 
     public void LogIn(ActionEvent event) throws IOException {
@@ -121,6 +137,17 @@ public class CreateAccountController {
         loader.load();
 
         Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.setScene(scene);
+    }
+
+    public void navigateToHome(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         stage.setScene(scene);
