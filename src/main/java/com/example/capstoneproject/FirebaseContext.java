@@ -8,27 +8,54 @@ import com.google.cloud.firestore.Firestore;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.AccessDeniedException;
 
 public class FirebaseContext {
 
+    private static Firestore firestore;
 
-    public Firestore firebase() {
+    public static synchronized void initializeFirebase() {
+        if (firestore != null) {
+            return; // Firestore is already initialized, no need to reinitialize
+        }
+
         try {
-
+            // Load the service account key JSON file from a specified path
             FileInputStream serviceAccount =
-                    new FileInputStream("src/main/resources/key.json");
+                    new FileInputStream("src/resources/key.json"); // Change this to your actual service account file
+            if (serviceAccount == null) {
+                System.err.println("Service account stream is null");
+                return;
+            }
 
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            // Use GoogleCredentials to generate the credentials for Firebase
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+
+            // Build the FirebaseOptions using the credentials
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
                     .build();
 
-            FirebaseApp.initializeApp(options);
+            // Check if any FirebaseApp instances already exist, if not initialize a new one
+            if (FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(options);
+            }
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.exit(1);
+            // Obtain a Firestore instance from the initialized app
+            firestore = FirestoreClient.getFirestore();
+
+        } catch (Exception e) {
+            System.err.println("Failed to initialize Firebase: " + e.getMessage());
+            e.printStackTrace();
         }
-        return FirestoreClient.getFirestore();
     }
 
+    public static Firestore getFirestore() {
+        if (firestore == null) {
+            initializeFirebase(); // Initialize only if it has not been initialized yet
+        }
+        return firestore;
+    }
 }
+

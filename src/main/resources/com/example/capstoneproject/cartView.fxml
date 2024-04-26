@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -53,13 +54,15 @@
                   <Pane prefHeight="293.0" prefWidth="235.0">
                      <children>
                         <Text layoutX="4.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment and Address Information" />
-                        <TextField layoutX="13.0" layoutY="67.0" prefHeight="25.0" prefWidth="160.0" promptText="Address" style="-fx-background-radius: 10;" />
-                        <TextField layoutX="14.0" layoutY="95.0" prefHeight="25.0" prefWidth="160.0" promptText="Full Name on Card" style="-fx-background-radius: 10;" />
-                        <TextField layoutX="14.0" layoutY="126.0" prefHeight="25.0" prefWidth="160.0" promptText="Debit/Credit Card Number" style="-fx-background-radius: 10;" />
-                        <TextField layoutX="16.0" layoutY="170.0" prefHeight="25.0" prefWidth="68.0" promptText="Exp Date" style="-fx-background-radius: 10;" />
-                        <TextField layoutX="108.0" layoutY="170.0" prefHeight="25.0" prefWidth="55.0" promptText="CCV" style="-fx-background-radius: 10;" />
-                        <Button layoutX="23.0" layoutY="214.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" style="-fx-font-family: &quot;Inter&quot;; -fx-font-size: 10px; -fx-font-style: normal; -fx-font-weight: bold; -fx-background-color: #9094E7;" text="Confirm" />
-                        <Button layoutX="102.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #bcd3e8; -fx-font-size: 10px; -fx-font-family: &quot;Inter&quot;; -fx-font-weight: bold; -fx-font-style: normal;" text="Cancel" />
+                        <TextField fx:id="addressTextField" layoutX="13.0" layoutY="67.0" prefHeight="25.0" prefWidth="160.0" promptText="Address" style="-fx-background-radius: 10;" />
+                        <TextField fx:id="fullNameTextField" layoutX="14.0" layoutY="95.0" prefHeight="25.0" prefWidth="160.0" promptText="Full Name on Card" style="-fx-background-radius: 10;" />
+                        <TextField fx:id="cardNumberField" layoutX="14.0" layoutY="126.0" prefHeight="25.0" prefWidth="160.0" promptText="Debit/Credit Card Number" style="-fx-background-radius: 10;" />
+                        <TextField fx:id="expDateTextField" layoutX="13.0" layoutY="195.0" prefHeight="25.0" prefWidth="68.0" promptText="Exp Date" style="-fx-background-radius: 10;" />
+                        <TextField fx:id="ccvTextField" layoutX="102.0" layoutY="195.0" prefHeight="25.0" prefWidth="55.0" promptText="CCV" style="-fx-background-radius: 10;" />
+                        <Button layoutX="16.0" layoutY="249.0" mnemonicParsing="false" onAction="#CardVerifier" prefHeight="25.0" prefWidth="62.0" style="-fx-font-family: &quot;Inter&quot;; -fx-font-size: 10px; -fx-font-style: normal; -fx-font-weight: bold; -fx-background-color: #9094E7;" text="Confirm" />
+                        <Button layoutX="95.0" layoutY="249.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #bcd3e8; -fx-font-size: 10px; -fx-font-family: &quot;Inter&quot;; -fx-font-weight: bold; -fx-font-style: normal;" text="Cancel" />
+                        <Label fx:id="cardErrorLabel" layoutX="1.0" layoutY="298.0" prefHeight="17.0" prefWidth="187.0" textFill="RED" />
+                        <Label layoutX="18.0" layoutY="174.0" prefHeight="17.0" prefWidth="53.0" text="MM/YY" textFill="#9a8d8d" />
                      </children>
                   </Pane>
                </buttons>
