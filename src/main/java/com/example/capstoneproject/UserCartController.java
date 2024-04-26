@@ -8,13 +8,29 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 public class UserCartController {
+
+    /**picture, item name and price of item variables**/
     @FXML
+    private ImageView itempicInCart;
+    @FXML
+    private Text sampleItemNameInCart;
+    @FXML
+    private Text samplePriceInCart;
+
+    /**subtotal area variables **/
+    @FXML
+    private Text subtotalInCart;
+    @FXML
+    private Text taxesInCart;
+    @FXML
+    private Text totalInCart;
+
     public void returntoHome(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
 
