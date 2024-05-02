@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class HomeViewController {
+public class HomeViewController extends SceneLoader{
 
     @FXML
     private TextField SearchField;
@@ -45,36 +45,13 @@ public class HomeViewController {
     }
 
     public void uploadPost(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/uploadPost.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toUploadPostView(event);
     }
     public void toProfile(MouseEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/profileCreation.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toProfileView(event);
     }
     public void toCart(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/cartView.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        toCartView(event);
     }
 
     public void addItemToCart(ActionEvent event) {
@@ -82,8 +59,7 @@ public class HomeViewController {
         itemCount++; // Increment the item count
         updateItemCountDisplay(); // Update the label that displays the item count
     }
-
-    private void updateItemCountDisplay() {
+    public void updateItemCountDisplay() {
         ItemNumberLabel.setText(String.valueOf(itemCount)); // Update the text of the item count label
     }
 

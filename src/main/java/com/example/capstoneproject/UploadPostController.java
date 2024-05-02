@@ -13,33 +13,17 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
-public class UploadPostController {
+public class UploadPostController extends SceneLoader{
     @FXML
     private ImageView uploadPostPic;
-    //returns user to home screen by clicking MarketMate Logo
     public void returntoHome(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toHomeView(event);
     }
     public void toProfile(MouseEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/profileCreation.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toProfileView(event);
+    }
+    public void toCart(MouseEvent event) throws IOException {
+        toCartView(event);
     }
 
     //Add an option to upload an image
@@ -57,14 +41,6 @@ public class UploadPostController {
             uploadPostPic.setImage(image);
         }
     }
-    public void toCart(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/cartView.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-    }
+}
 
 

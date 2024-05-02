@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class UserCartController {
+public class UserCartController extends SceneLoader{
 
     /**picture, item name and price of item variables**/
     @FXML
@@ -40,19 +40,18 @@ public class UserCartController {
 
     @FXML
     private void initialize() {
+        ccvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            formatCcv(oldValue, newValue);
+        });
+
+        expDateTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            formatExpDate(oldValue, newValue);
+        });
+
         cardNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
             formatCardNumber(oldValue, newValue);
         });
 
-        expDateTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateCardDetails();
-        });
-
-        ccvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateCardDetails();
-        });
-
-        // Optionally, add listeners to address and name if they affect validation
         addressTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             validateCardDetails();
         });
@@ -61,6 +60,7 @@ public class UserCartController {
             validateCardDetails();
         });
     }
+
     private Text sampleItemNameInCart;
     @FXML
     private Text samplePriceInCart;
@@ -75,51 +75,16 @@ public class UserCartController {
 
 
     public void returntoHome(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toHomeView(event);
     }
-
     public void toProfile(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/profileCreation.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toProfileView(event);
     }
-
     public void uploadPost(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/uploadPost.fxml"));
-
-        // Load the FXML content
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(scene);
-        stage.show();
+        toUploadPostView(event);
     }
-
     public void toCart(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/cartView.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        toCartView(event);
     }
 
     public boolean validExpDate(String date) {
@@ -152,13 +117,11 @@ public class UserCartController {
     }
 
     public boolean validCcv(String num) {
-        // Check if exactly 3 digits
-        return num.matches("\\d{3}");
+        String digitsOnly = num.replaceAll("[^\\d]", "");  // Removes non-digit characters
+        return digitsOnly.length() == 3 && digitsOnly.equals(num);
     }
-    public void CardVerifier(ActionEvent event) throws IOException {
-        String date = expDateTextField.getText();
-        String num = ccvTextField.getText();
 
+    public void CardVerifier() {
         // Listener for card number formatting and validation
         cardNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
             formatCardNumber(oldValue, newValue);
@@ -166,7 +129,7 @@ public class UserCartController {
 
         // Listener for checking if the expiration date is valid
         expDateTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateCardDetails();
+            formatCcv(oldValue, newValue);
         });
 
         // Listener for checking if the CCV is valid
@@ -175,7 +138,7 @@ public class UserCartController {
         });
     }
 
-    private void formatCardNumber(String oldValue, String newValue) {
+    public void formatCardNumber(String oldValue, String newValue) {
         String digitsOnly = newValue.replaceAll("[^\\d]", "");
         StringBuilder formatted = new StringBuilder();
 
@@ -200,19 +163,42 @@ public class UserCartController {
         cardNumberField.positionCaret(formatted.length());
         validateCardDetails();
     }
+    public void formatCcv(String oldValue, String newValue) {
+        String digits = newValue.replaceAll("[^\\d]", ""); // Removes non-digit characters
+        if (digits.length() > 3) {
+            digits = digits.substring(0, 3); // Limit to 3 digits
+        }
+        ccvTextField.setText(digits);
+    }
+    public void formatExpDate(String oldValue, String newValue) {
+        String cleaned = newValue.replaceAll("[^\\d]", "");
+        StringBuilder formatted = new StringBuilder();
 
-    private void validateCardDetails() {
-        String num = ccvTextField.getText();
-        String date = expDateTextField.getText();
+        for (int i = 0; i < cleaned.length(); i++) {
+            formatted.append(cleaned.charAt(i));
+            if (i == 1 && cleaned.length() > 2) {
+                formatted.append('/');
+            }
+            if (formatted.length() == 5) { // Maximum length of MM/YY is 5 including '/'
+                break;
+            }
+        }
+
+        expDateTextField.setText(formatted.toString());
+        validateCardDetails(); // Call to validate the full card details including date
+    }
+
+    public void validateCardDetails() {
+        String num = ccvTextField.getText().replaceAll("\\s+", "");
+        String date = expDateTextField.getText().replaceAll("\\s+", "");
         String cardNumber = cardNumberField.getText().replaceAll("\\s+", "");
         String address = addressTextField.getText();
         String name = fullNameTextField.getText();
 
-        if (!cardNumber.isEmpty() && cardNumber.length() == 16 && validCcv(num) && validExpDate(date) && !address.isEmpty() && !name.isEmpty()) {
+        if (cardNumber.length() == 16 && validCcv(num) && validExpDate(date) && !address.isEmpty() && !name.isEmpty()) {
             cardErrorLabel.setText("Details confirmed");
         } else {
             cardErrorLabel.setText("Please enter valid details");
         }
     }
-
 }

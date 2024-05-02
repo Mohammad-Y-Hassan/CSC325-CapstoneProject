@@ -25,7 +25,7 @@ public class Main extends Application {
         public void start (Stage primaryStage) throws Exception {
 
 
-            FirebaseContext.initializeFirebase();
+//            FirebaseContext.initializeFirebase();
 
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));

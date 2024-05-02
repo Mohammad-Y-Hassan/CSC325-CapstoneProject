@@ -8,8 +8,6 @@ import com.google.cloud.firestore.Firestore;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.AccessDeniedException;
 
 public class FirebaseContext {
 
@@ -17,45 +15,32 @@ public class FirebaseContext {
 
     public static synchronized void initializeFirebase() {
         if (firestore != null) {
-            return; // Firestore is already initialized, no need to reinitialize
+            return;
         }
 
         try {
-            // Load the service account key JSON file from a specified path
-            FileInputStream serviceAccount =
-                    new FileInputStream("src/resources/key.json"); // Change this to your actual service account file
-            if (serviceAccount == null) {
-                System.err.println("Service account stream is null");
-                return;
-            }
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/key.json");
 
-            // Use GoogleCredentials to generate the credentials for Firebase
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-            // Build the FirebaseOptions using the credentials
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
-            // Check if any FirebaseApp instances already exist, if not initialize a new one
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
             }
 
-            // Obtain a Firestore instance from the initialized app
-            firestore = FirestoreClient.getFirestore();
-
-        } catch (Exception e) {
+            firestore = FirestoreClient.getFirestore(); // Set Firestore instance
+        } catch (IOException e) {
             System.err.println("Failed to initialize Firebase: " + e.getMessage());
             e.printStackTrace();
+            System.exit(1); // Exit to avoid inconsistency
         }
     }
 
     public static Firestore getFirestore() {
         if (firestore == null) {
-            initializeFirebase(); // Initialize only if it has not been initialized yet
+            initializeFirebase(); // Initialize if not already
         }
         return firestore;
     }
 }
-
