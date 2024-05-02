@@ -26,7 +26,6 @@
                         <Image url="@../../../CapstoneProjectImages/HomeViewImage.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="SearchField" layoutX="93.0" layoutY="4.0" prefHeight="23.46" prefWidth="349.0" promptText="Search" />
                   <ImageView fx:id="profileIcon" fitHeight="22.0" fitWidth="26.0" layoutX="522.0" layoutY="5.0" onMouseClicked="#toProfile" onMousePressed="#toProfile" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
