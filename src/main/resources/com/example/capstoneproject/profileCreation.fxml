@@ -19,7 +19,6 @@
                   <Image url="@../../../CapstoneProjectImages/HomeViewImage.png" />
                </image>
             </ImageView>
-            <TextField fx:id="SearchField" layoutX="93.0" layoutY="4.0" prefHeight="23.46" prefWidth="349.0" promptText="Search" />
             <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="522.0" layoutY="5.0" onMouseClicked="#toProfile" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
@@ -41,7 +40,7 @@
    <center>
       <VBox alignment="CENTER" maxHeight="280.0" maxWidth="302.0" prefHeight="280.0" prefWidth="302.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Creation" wrappingWidth="301.4716796875" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Profile" wrappingWidth="301.4716796875" />
             <TextField prefColumnCount="0" promptText="Name" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="20.0" />
