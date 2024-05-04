@@ -5,6 +5,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.Firestore;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.database.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,7 +38,25 @@ public class FirebaseContext {
             System.exit(1); // Exit to avoid inconsistency
         }
     }
+//
+//    private void initializeUserCart(String userID){
+//        DatabaseReference Users = User.child("userCarts").child(userID);
+//        userCartRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                if(!dataSnapshot.exists()){
+//                    //cart does not exist, create one
+//                    Cart cart = new Cart();
+//                    userCartRef.setValue(Cart);
+//                }
+//            }
 
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                System.out.println("DatabaseError: " + databaseError.toException());
+//            }
+//        });
+//    }
     public static Firestore getFirestore() {
         if (firestore == null) {
             initializeFirebase(); // Initialize if not already
