@@ -51,7 +51,7 @@ public class CreateAccountController {
     }
 
     // Attempts to create a user with Firebase
-    private void createUser(ActionEvent event) {
+    private void createUser() {
             // Assume we're setting up a new user with email and password
             String email = EmailTextField.getText();
             String password = PasswordTextField.getText();
@@ -95,7 +95,6 @@ public class CreateAccountController {
                     // User found
                     Platform.runLater(() -> {
                         System.out.println("Login successful!");
-                        // Navigate to another view or update the scene, depending on your application design
                         try {
                             navigateToHome(event);
                         } catch (IOException e) {
@@ -122,8 +121,7 @@ public class CreateAccountController {
 
         if (firstName.length() >= 3 && isValidEmail(email) && isAllowedDomain && password.length() >= 8) {
             navigateToHome(event);
-            createUser(event);
-
+            createUser();
         } else {
             LogInMessageLabel.setText("Please enter valid credentials");
         }
@@ -150,6 +148,8 @@ public class CreateAccountController {
     }
 
     public void navigateToHome(ActionEvent event) throws IOException {
+        SharedModel.getInstance().setFirstName(FirstNameTextField.getText());
+        SharedModel.getInstance().setEmail(EmailTextField.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

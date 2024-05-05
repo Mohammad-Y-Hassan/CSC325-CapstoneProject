@@ -40,6 +40,8 @@ public class UserCartController extends SceneLoader{
 
     @FXML
     private void initialize() {
+        fullNameTextField.setText(SharedModel.getInstance().getFirstName());
+
         ccvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             formatCcv(oldValue, newValue);
         });
