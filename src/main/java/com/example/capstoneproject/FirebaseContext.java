@@ -3,79 +3,67 @@ package com.example.capstoneproject;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.auth.UserRecord;
-import com.google.firebase.database.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.AccessDeniedException;
 
 public class FirebaseContext {
 
+    private static FirebaseApp firebaseApp;
     private static Firestore firestore;
+    private static FirebaseAuth firebaseAuth;
 
-    public static synchronized void initializeFirebase() {
-        if (firestore != null) {
-            return; // Firestore is already initialized, no need to reinitialize
-        }
+//    static {
+//        initializeFirebase();
+//    }
 
+    public static void initializeFirebase() {
         try {
-            // Load the service account key JSON file from a specified path
-            FileInputStream serviceAccount =
-                    new FileInputStream("src/resources/key.json"); // Change this to your actual service account file
-            if (serviceAccount == null) {
-                System.err.println("Service account stream is null");
-                return;
-            }
-
-            // Use GoogleCredentials to generate the credentials for Firebase
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-            // Build the FirebaseOptions using the credentials
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/key.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
-            // Check if any FirebaseApp instances already exist, if not initialize a new one
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
+            if (FirebaseApp.getApps().isEmpty()) { // Check for existing app instances
+                firebaseApp = FirebaseApp.initializeApp(options);
+                System.out.println("Firebase App initialized.");
+            } else {
+                firebaseApp = FirebaseApp.getInstance();
             }
 
-            // Obtain a Firestore instance from the initialized app
-            firestore = FirestoreClient.getFirestore();
+            // Ensure FirebaseAuth and Firestore instances are initialized
+            firebaseAuth = FirebaseAuth.getInstance(firebaseApp);
+            firestore = FirestoreClient.getFirestore(firebaseApp);
 
-        } catch (Exception e) {
-            System.err.println("Failed to initialize Firebase: " + e.getMessage());
-            e.printStackTrace();
+            if (firebaseAuth == null) {
+                System.out.println("Firebase Auth is null after initialization.");
+            } else {
+                System.out.println("Firebase Auth initialized successfully.");
+            }
+
+            if (firestore == null) {
+                System.out.println("Firestore is null after initialization.");
+            } else {
+                System.out.println("Firestore initialized successfully.");
+            }
+
+        } catch (IOException ex) {
+            System.out.println("Failed to initialize Firebase: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(1);
         }
     }
-//
-//    private void initializeUserCart(String userID){
-//        DatabaseReference Users = User.child("userCarts").child(userID);
-//        userCartRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                if(!dataSnapshot.exists()){
-//                    //cart does not exist, create one
-//                    Cart cart = new Cart();
-//                    userCartRef.setValue(Cart);
-//                }
-//            }
 
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                System.out.println("DatabaseError: " + databaseError.toException());
-//            }
-//        });
-//    }
     public static Firestore getFirestore() {
-        if (firestore == null) {
-            initializeFirebase(); // Initialize only if it has not been initialized yet
-        }
+        if (firestore == null) System.out.println("Firestore was requested but is not initialized.");
         return firestore;
     }
-}
 
+    public static FirebaseAuth getFirebaseAuth() {
+        if (firebaseAuth == null) System.out.println("FirebaseAuth was requested but is not initialized.");
+        return firebaseAuth;
+    }
+}

@@ -3,6 +3,7 @@ package com.example.capstoneproject;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -17,17 +18,14 @@ import java.io.FileInputStream;
 
 public class Main extends Application {
 
-//        public static Firestore fstore;
-//        public static FirebaseAuth fauth;
-//        private final FirebaseContext contxtFirebase = new FirebaseContext();
+        public static Firestore fstore;
+        public static FirebaseAuth fauth;
+        private final FirebaseContext contxtFirebase = new FirebaseContext();
+
 
         @Override
         public void start (Stage primaryStage) throws Exception {
-
-
             FirebaseContext.initializeFirebase();
-
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
             // Set the root element type programmatically
             BorderPane root = new BorderPane();
@@ -38,8 +36,10 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
+
         }
-        public static void Main(String[] args){
+        public static void main(String[] args){
+//            FirebaseContext.initializeFirebase();
             launch();
         }
 }
