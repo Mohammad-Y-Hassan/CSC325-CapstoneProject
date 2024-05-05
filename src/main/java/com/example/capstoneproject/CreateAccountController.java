@@ -2,11 +2,7 @@ package com.example.capstoneproject;
 
 // Used for validating email
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -18,6 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.internal.FirebaseRequestInitializer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,93 +33,83 @@ import javafx.stage.Stage;
 // import jdk.internal.access.JavaNioAccess;
 
 public class CreateAccountController {
-    @FXML
-    private Button LogInButton2;
+    @FXML private Button createAccountButton;
+    @FXML private PasswordField PasswordTextField;
+    @FXML private TextField FirstNameTextField,EmailTextField;
+    @FXML private Label LogInMessageLabel;
 
-    @FXML
-    private Button MainCreateAccountButton;
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+$");
+    private static final List<String> ALLOWED_DOMAINS = Arrays.asList("@gmail.com", "@yahoo.com", "@farmingdale.edu");
 
-    @FXML
-    private Button MainLogInButton;
+    private FirebaseAuth firebaseAuth = FirebaseContext.getFirebaseAuth();
+    private Firestore firestore = FirebaseContext.getFirestore();
 
-    @FXML
-    private Button CreateAccountButton2;
-
-    @FXML
-    private PasswordField PasswordTextField;
-
-
-    @FXML
-    private TextField FirstNameTextField;
-
-    @FXML
-    private TextField EmailTextField;
-
-    @FXML
-    private Label LogInMessageLabel;
-
-
-    // Validates email
-    public boolean isValidEmail(String email) {
-        // Revised regular expression pattern for email validation
-        String pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+$";
-
-        // Create a Pattern object
-        Pattern regex = Pattern.compile(pattern);
-
-        // Create a Matcher object
-        Matcher matcher = regex.matcher(email);
-
-        // Check if the email matches the pattern
-        boolean matches = matcher.matches();
-
-        return matches;
+    // Validates email using a regular expression
+    private boolean isValidEmail(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
     }
 
-    public void logInUser(UserRecord newUserRecord, String firstName, String email, ActionEvent event) {
+    // Attempts to create a user with Firebase
+    private void createUser(ActionEvent event) {
+            // Assume we're setting up a new user with email and password
+            String email = EmailTextField.getText();
+            String password = PasswordTextField.getText();
+            String displayName = FirstNameTextField.getText();  // Assuming there's a field to get the user's name
 
-    }
+            UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+                    .setEmail(email)
+                    .setPassword(password)
+                    .setDisplayName(displayName);
 
-    public void createUser(String email, String password, String firstName, ActionEvent event) {
-        Firestore db = FirebaseContext.getFirestore();
-
-        if (db == null) {
-            System.err.println("Firestore is not initialized");
-            return;
-        }
-
-        // Prepare user data
-        Map<String, Object> user = new HashMap<>();
-        user.put("Email Address", email);
-        user.put("Full Name", firstName);
-        user.put("Password", password);
-
-        DocumentReference docRef = db.collection("User").document(email);
-
-        ApiFuture<WriteResult> apiFuture = docRef.set(user);
-
-        CompletableFuture<WriteResult> future = toCompletableFuture(apiFuture);
-
-        future.thenAccept(result -> {
-            System.out.println("Document created at: " + result.getUpdateTime());
-        }).exceptionally(ex -> {
-            System.err.println("Error setting document: " + ex.getMessage());
-            return null;
-        });
-    }
-
-    private <T> CompletableFuture<T> toCompletableFuture(ApiFuture<T> apiFuture) {
-        CompletableFuture<T> completableFuture = new CompletableFuture<>();
-
-        apiFuture.addListener(() -> {
             try {
-                completableFuture.complete(apiFuture.get());
-            } catch (InterruptedException | ExecutionException e) {
-                completableFuture.completeExceptionally(e);
+                UserRecord userRecord = FirebaseContext.getFirebaseAuth().createUser(request);
+                addData(userRecord.getUid(), displayName, email, password);
+                System.out.println("User created with UID: " + userRecord.getUid());
+                System.out.println("User created successfully with UID: " + userRecord.getUid());
+                // You may now navigate or update UI
+            } catch (FirebaseAuthException e) {
+                System.err.println("Firebase Auth error: " + e.getMessage());
+                System.out.println("Failed to create user: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Unexpected error: " + e.getMessage());
+                System.out.println("Unexpected error: " + e.getMessage());
             }
-        }, Executors.newSingleThreadExecutor());
+    }
 
-        return completableFuture;
+    public void logInUser(ActionEvent event) throws IOException{
+        String firstName = FirstNameTextField.getText();
+        String email = EmailTextField.getText();
+        String password = PasswordTextField.getText();
+        // Query Firestore database for user with matching email and password
+        ApiFuture<QuerySnapshot> future = firestore.collection("Users")
+                .whereEqualTo("email", email)
+                .whereEqualTo("name", firstName)
+                .whereEqualTo("password", password)
+                .get();
+
+        future.addListener(() -> {
+            try {
+                QuerySnapshot querySnapshot = future.get();
+                if (!querySnapshot.isEmpty()) {
+                    // User found
+                    Platform.runLater(() -> {
+                        System.out.println("Login successful!");
+                        // Navigate to another view or update the scene, depending on your application design
+                        try {
+                            navigateToHome(event);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                } else {
+                    // User not found
+                    Platform.runLater(() -> LogInMessageLabel.setText("Login failed: Invalid credentials."));
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                Platform.runLater(() -> System.out.println("Failed to query the database: " + e.getMessage()));
+            }
+        }, Platform::runLater);
     }
 
     public void HomeView(ActionEvent event) throws IOException {
@@ -128,13 +117,13 @@ public class CreateAccountController {
         String email = EmailTextField.getText();
         String password = PasswordTextField.getText();
 
-        List<String> allowedDomains = Arrays.asList("@gmail.com", "@yahoo.com", "@farmingdale.edu"); // Add more as needed
-
+        List<String> allowedDomains = Arrays.asList("@gmail.com", "@yahoo.com", "@farmingdale.edu");
         boolean isAllowedDomain = allowedDomains.stream().anyMatch(domain -> email.endsWith(domain));
 
         if (firstName.length() >= 3 && isValidEmail(email) && isAllowedDomain && password.length() >= 8) {
-            createUser(email, password, firstName, event);
             navigateToHome(event);
+            createUser(event);
+
         } else {
             LogInMessageLabel.setText("Please enter valid credentials");
         }
@@ -149,6 +138,7 @@ public class CreateAccountController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+
     public void CreateAccount(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
         BorderPane root = new BorderPane();
@@ -158,11 +148,23 @@ public class CreateAccountController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
-    public void navigateToHome(ActionEvent event) throws IOException{
+
+    public void navigateToHome(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/HomeView.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+
+    private void addData(String userId, String name, String email, String password) {
+        DocumentReference docRef = firestore.collection("Users").document(userId);
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", email);
+        data.put("name", name);
+        data.put("password", password);
+        docRef.set(data).addListener(() -> LogInMessageLabel.setText("Data written to Firestore successfully."),
+                executor -> LogInMessageLabel.setText("Error writing to Firestore."));
+    }
+
 }
