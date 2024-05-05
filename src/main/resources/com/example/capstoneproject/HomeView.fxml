@@ -40,7 +40,7 @@
             </ImageView>
             <Label fx:id="ItemNumberLabel" layoutX="586.0" layoutY="4.0" prefHeight="27.0" prefWidth="29.0" style="-fx-font-weight: bold;" text="0" />
             <Text layoutX="356.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" />
-            <Text layoutX="413.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" />
+            <Text fx:id="nameTextField" layoutX="413.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" />
          </children>
       </AnchorPane>
    </top>

@@ -2,6 +2,7 @@ package com.example.capstoneproject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class HomeViewController extends SceneLoader{
+public class HomeViewController extends SceneLoader {
 
     @FXML
     private TextField SearchField;
@@ -29,11 +30,15 @@ public class HomeViewController extends SceneLoader{
     @FXML
     private Label ItemNumberLabel;
 
+    @FXML
+    private Text nameTextField;
 
     private int itemCount = 0;
 
+
     @FXML
     public void initialize() {
+        nameTextField.setText(SharedModel.getInstance().getFirstName());
         updateItemCountDisplay(); // Update the display when the view is first loaded
         setupSearchBar(); // Set up the search bar
     }
