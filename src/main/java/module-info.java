@@ -11,8 +11,9 @@ module com.example.capstoneproject {
     requires google.cloud.firestore;
     requires google.cloud.core;
     requires com.google.api.apicommon;
+    requires com.fasterxml.jackson.databind;
 
+    opens com.example.capstoneproject to javafx.fxml, com.fasterxml.jackson.databind;
 
-    opens com.example.capstoneproject to javafx.fxml;
     exports com.example.capstoneproject;
 }

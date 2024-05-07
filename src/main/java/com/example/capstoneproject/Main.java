@@ -26,6 +26,7 @@ public class Main extends Application {
         @Override
         public void start (Stage primaryStage) throws Exception {
             FirebaseContext.initializeFirebase();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/capstoneproject/CreateAccount.fxml"));
             // Set the root element type programmatically
             BorderPane root = new BorderPane();
@@ -34,6 +35,7 @@ public class Main extends Application {
             loader.load();
 
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/MarketMate.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
 

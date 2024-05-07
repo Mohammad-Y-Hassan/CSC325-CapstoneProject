@@ -1,5 +1,6 @@
 package com.example.capstoneproject;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -37,9 +39,17 @@ public class UserCartController extends SceneLoader{
     private TextField fullNameTextField;
     @FXML
     private TextField addressTextField;
+    @FXML
+    private Text itemPriceText;
+    @FXML
+    private Text itemNameText;
+    @FXML
+    private GridPane productGridPane;
 
     @FXML
     private void initialize() {
+//        updateCartDisplay(); // Initial display setup
+        SharedModel.getInstance().addListener(this::updateCartDisplay); // Listen for changes
         fullNameTextField.setText(SharedModel.getInstance().getFirstName());
 
         ccvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -202,5 +212,24 @@ public class UserCartController extends SceneLoader{
         } else {
             cardErrorLabel.setText("Please enter valid details");
         }
+    }
+    public void updateCartDisplay() {
+        Platform.runLater(() -> {
+        // Assuming you have a GridPane or similar to display cart items
+        productGridPane.getChildren().clear(); // Clear existing entries
+        for (SharedModel.Product product : SharedModel.getInstance().getCart().getItems()) {
+            // Create UI components for each product and add to grid or list
+            addProductToCartDisplay(product);
+        }
+        subtotalInCart.setText(String.format("$%.2f", SharedModel.getInstance().getCart().getSubtotal()));
+        taxesInCart.setText(String.format("$%.2f", SharedModel.getInstance().getCart().getTax()));
+        totalInCart.setText(String.format("$%.2f", SharedModel.getInstance().getCart().getTotal()));
+        });
+        }
+
+    private void addProductToCartDisplay(SharedModel.Product product) {
+        itemNameText.setText(product.getTitle());
+        itemPriceText.setText(product.getPrice());
+        // Add these texts to your cart display grid or pane
     }
 }

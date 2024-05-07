@@ -49,7 +49,7 @@
                <buttons>
                   <Pane prefHeight="365.0" prefWidth="220.0">
                      <children>
-                        <GridPane layoutX="-106.0" prefHeight="364.0" prefWidth="325.0">
+                        <GridPane fx:id="productGridPane" layoutX="-106.0" prefHeight="364.0" prefWidth="325.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -60,23 +60,23 @@
                             <RowConstraints maxHeight="95.24118041992188" minHeight="10.0" prefHeight="45.404876708984375" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Text fx:id="sampleItemNameInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="sampleItemName" GridPane.columnIndex="1">
+                              <Text fx:id="itemNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="sampleItemName" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="50.0" left="5.0" />
                                  </GridPane.margin>
                               </Text>
-                              <Text fx:id="samplePriceInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="samplePrice" GridPane.columnIndex="2">
+                              <Text fx:id="itemPriceText" strokeType="OUTSIDE" strokeWidth="0.0" text="samplePrice" GridPane.columnIndex="2">
                                  <GridPane.margin>
                                     <Insets bottom="50.0" left="5.0" />
                                  </GridPane.margin>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal" GridPane.rowIndex="1">
+                              <Text fx:id="subtotalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="30.0" />
                                  </GridPane.margin>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taxes" GridPane.rowIndex="1" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total" GridPane.rowIndex="1">
+                              <Text fx:id="taxesInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Taxes" GridPane.rowIndex="1" />
+                              <Text fx:id="totalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Total" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets top="30.0" />
                                  </GridPane.margin>
