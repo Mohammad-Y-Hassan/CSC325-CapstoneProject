@@ -32,4 +32,8 @@ public class Cart {
     public List<SharedModel.Product> getItems() {
         return items;
     }
+
+    public boolean isCartEmpty() {
+        return items.isEmpty();
+    }
 }

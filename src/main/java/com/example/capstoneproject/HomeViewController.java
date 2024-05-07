@@ -31,6 +31,9 @@ public class HomeViewController extends SceneLoader {
     private ImageView uploadPostPic;
 
     @FXML
+    private Text maxLimitText;
+
+    @FXML
     private GridPane productGridPane;
 
     @FXML
@@ -48,6 +51,7 @@ public class HomeViewController extends SceneLoader {
     @FXML
     public void initialize() {
         productGridPane.getChildren().clear();
+        maxLimitText.setText("");
         try {
             List<SharedModel.Product> products = StorageManager.getInstance().loadProducts();
             if (products.isEmpty()) {
@@ -143,7 +147,12 @@ public class HomeViewController extends SceneLoader {
     }
 
     public void updateItemCountDisplay() {
-        ItemNumberLabel.setText(String.valueOf(itemCount));
+        if (itemCount > 26) {
+            maxLimitText.setStyle("-fx-text-fill: red;");
+            maxLimitText.setText("MAX LIMIT");
+        } else {
+            ItemNumberLabel.setText(String.valueOf(itemCount));
+        }
     }
     public void uploadPost(MouseEvent event) throws IOException {
         toUploadPostView(event);

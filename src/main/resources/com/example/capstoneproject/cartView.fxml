@@ -44,64 +44,6 @@
                </children>
             </AnchorPane>
          </top>
-         <right>
-            <ButtonBar prefHeight="365.0" prefWidth="345.0" BorderPane.alignment="CENTER">
-               <buttons>
-                  <Pane prefHeight="365.0" prefWidth="220.0">
-                     <children>
-                        <GridPane fx:id="productGridPane" layoutX="-106.0" prefHeight="364.0" prefWidth="325.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="318.0951232910156" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="95.24118041992188" minHeight="10.0" prefHeight="45.404876708984375" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Text fx:id="itemNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="sampleItemName" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="50.0" left="5.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="itemPriceText" strokeType="OUTSIDE" strokeWidth="0.0" text="samplePrice" GridPane.columnIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="50.0" left="5.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="subtotalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="30.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="taxesInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Taxes" GridPane.rowIndex="1" />
-                              <Text fx:id="totalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Total" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets top="30.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="subtotalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="30.0" left="30.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="taxesInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets left="30.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text fx:id="totalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets left="30.0" top="30.0" />
-                                 </GridPane.margin>
-                              </Text>
-                           </children>
-                        </GridPane>
-                     </children></Pane>
-               </buttons>
-            </ButtonBar>
-         </right>
          <left>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <buttons>
@@ -115,13 +57,70 @@
                         <TextField fx:id="ccvTextField" layoutX="102.0" layoutY="195.0" prefHeight="25.0" prefWidth="55.0" promptText="CCV" style="-fx-background-radius: 10;" />
                         <Button layoutX="16.0" layoutY="249.0" mnemonicParsing="false" onAction="#CardVerifier" prefHeight="25.0" prefWidth="62.0" style="-fx-font-family: &quot;Inter&quot;; -fx-font-size: 10px; -fx-font-style: normal; -fx-font-weight: bold; -fx-background-color: #9094E7;" text="Confirm" />
                         <Button layoutX="95.0" layoutY="249.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #bcd3e8; -fx-font-size: 10px; -fx-font-family: &quot;Inter&quot;; -fx-font-weight: bold; -fx-font-style: normal;" text="Cancel" />
-                        <Label fx:id="cardErrorLabel" layoutX="1.0" layoutY="298.0" prefHeight="17.0" prefWidth="187.0" textFill="RED" />
+                        <Label fx:id="cardErrorLabel" layoutX="2.0" layoutY="281.0" prefHeight="17.0" prefWidth="187.0" textFill="RED" />
                         <Label layoutX="18.0" layoutY="174.0" prefHeight="17.0" prefWidth="53.0" text="MM/YY" textFill="#9a8d8d" />
+                        <Button fx:id="orderButton" layoutX="15.0" layoutY="309.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" style="-fx-font-family: &quot;Inter&quot;; -fx-font-size: 10px; -fx-font-style: normal; -fx-font-weight: bold; -fx-background-color: #9094E7;" text="Order" />
+                        <Text fx:id="missingItemText" layoutX="34.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="103.47005462646484" />
                      </children>
                   </Pane>
                </buttons>
             </ButtonBar>
          </left>
+         <center>
+            <ButtonBar prefHeight="365.0" prefWidth="345.0" BorderPane.alignment="CENTER">
+               <buttons>
+                  <Pane prefHeight="365.0" prefWidth="220.0">
+                     <children>
+                        <GridPane fx:id="productGridPane" layoutX="-106.0" prefHeight="364.0" prefWidth="325.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="318.0951232910156" minHeight="10.0" prefHeight="51.66667175292969" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="326.6666603088379" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text fx:id="subtotalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets bottom="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="taxesInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Taxes" GridPane.rowIndex="8" />
+                              <Text fx:id="totalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="Total" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets top="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="subtotalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets bottom="30.0" left="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="taxesInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <Text fx:id="totalInCart" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets left="30.0" top="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                           </children>
+                        </GridPane>
+                     </children></Pane>
+               </buttons>
+            </ButtonBar>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

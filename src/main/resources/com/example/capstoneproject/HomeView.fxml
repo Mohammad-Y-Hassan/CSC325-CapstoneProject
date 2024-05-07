@@ -24,24 +24,25 @@
             </image>
          </ImageView>
          <TextField fx:id="SearchField" layoutX="93.0" layoutY="4.0" prefHeight="26.0" prefWidth="339.0" promptText="Search" />
-         <ImageView fx:id="profileIcon" fitHeight="22.0" fitWidth="26.0" layoutX="657.0" layoutY="7.0" onMousePressed="#toProfile" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="profileIcon" fitHeight="22.0" fitWidth="26.0" layoutX="622.0" layoutY="7.0" onMousePressed="#toProfile" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../CapstoneProjectImages/profileIcon.png" />
             </image>
          </ImageView>
-         <ImageView fitHeight="25.0" fitWidth="23.0" layoutX="716.0" layoutY="6.0" onMouseClicked="#toCart" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="25.0" fitWidth="23.0" layoutX="659.0" layoutY="7.0" onMouseClicked="#toCart" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../CapstoneProjectImages/shoppingcartIcon.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="uploadPostButton" fitHeight="25.0" fitWidth="25.0" layoutX="600.0" layoutY="7.0" onMousePressed="#uploadPost" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="uploadPostButton" fitHeight="25.0" fitWidth="25.0" layoutX="578.0" layoutY="8.0" onMousePressed="#uploadPost" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../CapstoneProjectImages/uploadPost.png" />
             </image>
          </ImageView>
          <Label fx:id="ItemNumberLabel" layoutX="771.0" layoutY="4.0" prefHeight="27.0" prefWidth="29.0" style="-fx-font-weight: bold;" text="0" />
          <Text layoutX="449.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" />
-         <Text fx:id="nameTextField" layoutX="514.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" />
+         <Text fx:id="nameTextField" layoutX="509.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" />
+            <Text fx:id="maxLimitText" fill="RED" layoutX="692.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MAX LIMIT" />
       </children>
    </AnchorPane>
 </top>
