@@ -45,7 +45,7 @@ public class CreateAccountController {
     private Firestore firestore = FirebaseContext.getFirestore();
 
     // Validates email using a regular expression
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }

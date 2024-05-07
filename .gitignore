@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 src/main/resources/key.json
+src/main/resources/products.json
 ### Eclipse ###
 .apt_generated
 .classpath

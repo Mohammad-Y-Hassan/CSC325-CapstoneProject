@@ -1,16 +1,20 @@
 package com.example.capstoneproject;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -39,7 +43,22 @@ public class UserCartController extends SceneLoader{
     private TextField addressTextField;
 
     @FXML
+    private Text subtotalInCart;
+    @FXML
+    private Text taxesInCart;
+    @FXML
+    private Text totalInCart;
+    @FXML
+    private Text missingItemText;
+    @FXML
+    private Button orderButton;
+    @FXML
+    private GridPane productGridPane;
+
+    @FXML
     private void initialize() {
+        updateCartDisplay(); // Initial display setup
+        SharedModel.getInstance().addListener(this::updateCartDisplay); // Listen for changes
         fullNameTextField.setText(SharedModel.getInstance().getFirstName());
 
         ccvTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -61,19 +80,14 @@ public class UserCartController extends SceneLoader{
         fullNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             validateCardDetails();
         });
+
+        orderButton.setOnAction(event -> processOrder());
     }
 
     private Text sampleItemNameInCart;
     @FXML
     private Text samplePriceInCart;
 
-    /**subtotal area variables **/
-    @FXML
-    private Text subtotalInCart;
-    @FXML
-    private Text taxesInCart;
-    @FXML
-    private Text totalInCart;
 
 
     public void returntoHome(MouseEvent event) throws IOException {
@@ -191,16 +205,64 @@ public class UserCartController extends SceneLoader{
     }
 
     public void validateCardDetails() {
-        String num = ccvTextField.getText().replaceAll("\\s+", "");
+        String num = ccvTextField.getText();
         String date = expDateTextField.getText().replaceAll("\\s+", "");
         String cardNumber = cardNumberField.getText().replaceAll("\\s+", "");
         String address = addressTextField.getText();
         String name = fullNameTextField.getText();
 
         if (cardNumber.length() == 16 && validCcv(num) && validExpDate(date) && !address.isEmpty() && !name.isEmpty()) {
+            cardErrorLabel.setStyle("-fx-text-fill: green;");
             cardErrorLabel.setText("Details confirmed");
         } else {
+            cardErrorLabel.setStyle("-fx-text-fill: red;");
             cardErrorLabel.setText("Please enter valid details");
         }
     }
+    public void updateCartDisplay() {
+        Platform.runLater(() -> {
+//            productGridPane.getChildren().clear(); // Clear the grid first
+            int row = 0;
+            int column = 0;
+            final int maxRowsPerColumn = 7; // Assume max 7 rows per column to avoid subtotal row
+
+            for (SharedModel.Product product : SharedModel.getInstance().getCart().getItems()) {
+                if (row >= maxRowsPerColumn) {
+                    column++;
+                    row = 0;
+                }
+                Text productName = new Text(product.getTitle());
+                Text productPrice = new Text(String.format("$%.2f", Double.parseDouble(product.getPrice().replaceAll("[^\\d.]", ""))));
+
+                VBox productBox = new VBox(productName, productPrice);
+                GridPane.setConstraints(productBox, column, row); // Set column and row for VBox
+                productGridPane.getChildren().add(productBox); // Add the VBox to the GridPane
+                row++; // Move to the next row
+            }
+
+            // Update subtotal, taxes, and total
+            double subtotal = SharedModel.getInstance().getCart().getSubtotal();
+            double tax = SharedModel.getInstance().getCart().getTax();
+            double total = subtotal + tax;
+
+            subtotalInCart.setText(String.format("$%.2f", subtotal));
+            taxesInCart.setText(String.format("$%.2f", tax));
+            totalInCart.setText(String.format("$%.2f", total));
+
+            // Ensure the totals are always in the last row of the first column
+            GridPane.setConstraints(subtotalInCart.getParent(), 0, maxRowsPerColumn);
+            GridPane.setConstraints(taxesInCart.getParent(), 0, maxRowsPerColumn + 1);
+            GridPane.setConstraints(totalInCart.getParent(), 0, maxRowsPerColumn + 2);
+        });
+    }
+    private void processOrder() {
+        if (SharedModel.getInstance().getCart().isCartEmpty()) {
+            missingItemText.setStyle("-fx-text-fill: red;");
+            missingItemText.setText("Cart is Empty");
+        } else {
+            missingItemText.setStyle("-fx-text-fill: green;");
+            missingItemText.setText("Order Has Been Processed");
+        }
+    }
+
 }
